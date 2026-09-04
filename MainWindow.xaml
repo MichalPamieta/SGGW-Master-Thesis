@@ -1,0 +1,87 @@
+﻿<Window x:Class="MICHAŁ_PAMIĘTA_196099_PRACA_MAGISTERSKA.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MICHAŁ_PAMIĘTA_196099_PRACA_MAGISTERSKA"
+        xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+        mc:Ignorable="d"
+        Title="Parallel Genetic Algorithms" Height="1010" Width="1200" MinHeight="1010" MinWidth="1000">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="330"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+
+            <StackPanel Grid.Column="0">
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,8" HorizontalAlignment="Center">
+                    <Button Name="StartButton" Content="Start" Width="100" Margin="0,0,50,0" Click="StartButton_Click"/>
+                    <Button x:Name="CancelButton" Content="Cancel" Width="100" Click="CancelButton_Click" IsEnabled="False"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="0,0,0,10">
+                    <CheckBox x:Name="DrawFitnessChart" Content="Wykres funkcji dopasowania" IsChecked="True" Margin="5"/>
+                    <CheckBox x:Name="DrawIslandFitnessChart" Content="Wykresy dopasowania dla wysp" IsChecked="False" Margin="5" Visibility="Collapsed"/>
+                    <CheckBox x:Name="DrawIslandTopology" Content="Topologia migracji między wyspami" IsChecked="False" Margin="5" Visibility="Collapsed"/>
+                </StackPanel>
+                <ProgressBar Name="ProgressBar" Height="20" Width="330" Margin="0,0,0,5" Maximum="100"/>
+                <StackPanel x:Name="ParametersPanel" Margin="0"/>
+            </StackPanel>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <GroupBox Header="Best Individual" FontWeight="Bold" FontSize="14" Grid.Row="0" Margin="10">
+                    <StackPanel>
+                        <TextBox Name="BestFitnessText" Cursor="Arrow" Margin="5" IsReadOnly="True" BorderThickness="0" Background="Transparent" IsReadOnlyCaretVisible="False"/>
+                        <Expander Name="GenotypeExpander" Header="Genotype" Margin="5" IsExpanded="False" Visibility="Collapsed">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="190">
+                                <TextBox Name="GenotypeText" Cursor="Arrow" Margin="5,0" TextWrapping="Wrap" IsReadOnly="True" BorderThickness="0" Background="Transparent" IsReadOnlyCaretVisible="False"/>
+                            </ScrollViewer>
+                        </Expander>
+                        <TextBox Name="TotalTimeText" Cursor="Arrow" Margin="5" IsReadOnly="True" BorderThickness="0" Background="Transparent" IsReadOnlyCaretVisible="False"/>
+                        <TextBox Name="BestTimeText" Cursor="Arrow" Margin="5" IsReadOnly="True" BorderThickness="0" Background="Transparent" IsReadOnlyCaretVisible="False"/>
+                        <TextBox Name="BestGenerationText" Cursor="Arrow" Margin="5" IsReadOnly="True" BorderThickness="0" Background="Transparent" IsReadOnlyCaretVisible="False"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <TabControl Grid.Row="1" Margin="10">
+                    <TabItem Header="Global Fitness History">
+                        <ScrollViewer  VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled" CanContentScroll="False">
+                            <lvc:CartesianChart Name="FitnessChart" MinHeight="400"
+                                                ZoomMode="X" ZoomingSpeed="0.2"
+                                                TooltipPosition="Top"
+                                                AnimationsSpeed="0:0:0" />
+                        </ScrollViewer>
+                    </TabItem>
+
+                    <TabItem x:Name="IslandFitnessTab" Header="Island Fitness (if applicable)" Visibility="Collapsed">
+                        <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled" CanContentScroll="False">
+                            <StackPanel Name="IslandChartsPanel"/>
+                        </ScrollViewer>
+                    </TabItem>
+                    <TabItem x:Name="MigrationTopologyTab" Header="Migration Topology" Visibility="Collapsed">
+                        <StackPanel Margin="10">
+                            <TextBlock Name="TopologyNameText" Text="Topology Name: "  FontWeight="Bold" FontSize="14" Margin="0,0,0,10" />
+                            <TextBlock Text="Migration Topology (List of Connections):"
+                                   FontWeight="Bold" FontSize="14" Margin="0,0,0,10"/>
+                            <DataGrid x:Name="TopologyDataGrid" AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True"
+                                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Source" Binding="{Binding Source}" Width="Auto" MinWidth="50"/>
+                                    <DataGridTextColumn Header="Targets" Binding="{Binding Targets}" Width="*" MinWidth="50"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </TabItem>
+
+                </TabControl>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</Window>
